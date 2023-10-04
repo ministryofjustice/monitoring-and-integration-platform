@@ -4,9 +4,9 @@
 host: https://ministryofjustice.github.io/monitoring-and-integration-platform
 
 # Header-related options
-show_govuk_logo: false
+show_govuk_logo: true
 service_name: Monitoring and Integration Platform
-service_link: /monitoring-and-integration-platform
+service_link: /
 phase: Beta
 
 # Links to show on right-hand-side of header
