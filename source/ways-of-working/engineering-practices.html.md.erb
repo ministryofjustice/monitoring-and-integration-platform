@@ -12,11 +12,12 @@ review_in: 6 months
 | Follow best practice for resource naming | Resource name should follow naming convention i.e. resource name then unique identifier. |
 | Terraform is used to define our infrastructure | |
 | Data kept within UK | For instance in Azure we are talking about UK south/UK West regions |
-| Cloud resources has to have mandatory tag for chargeback| We will adhere to tagging standards adopted by MOJ for each different Cloud |
-| Tenant Segregation | 	Total separation between operating environments (production, pre-production, and development). |
+| Cloud resources must be appropriately tagged | We will adhere to tagging standards adopted by MOJ for each different Cloud |
+| Tenant Segregation | 	Strong separation between operating environments (production, pre-production, and development). |
 | Infrastructure as Code (IaC) | Code will be stored within MoJ’s GitHub Enterprise repositories and deployment will be via pipelines |
 | All resource changes to any environment actioned via code | Changes to environments always actioned via CI/CD (continuous integration and continuous delivery/continuous deploymen) |
 | Every commit must have a commit message | Clear descriptions of the change being commited |
+| Repository branches should have a sensible name that relates to their purpose | Separated using "-" |
 | Pull Requests have comments and descriptions | Clear descriptions on all Pull Requests and comments |
 | Source control for all code | No code left in the developer workstations |
 | Incorporate security early in the development lifecycle | We need to incorporate security into all aspects of the software development lifecycle, from design to deployment. This helps to prevent security vulnerabilities from being introduced into the software.|
