@@ -5,6 +5,12 @@ review_in: 6 months
 ---
 
 # Engineering Practices
-MIP Standards
 
-MIP Best Practices
+| Title         | Notes         |
+|---------------|---------------|
+| Development environment as standard | We always have a development environment for things that run in Production. Core spoke/workload |
+| Follow best practice for resource naming | Resource name should follow naming convention i.e. resource name then unique identifier. |
+| Infrastructure as Code (IaC) | Code will be stored within MoJ’s GitHub Enterprise repositories and deployment will be via pipelines |
+| All resource changes to any environment actioned via code | Changes to environments always actioned via CI/CD (continuous integration and continuous delivery/continuous deploymen) |
+| Committs have comments | Clear descriptions of the change being committed |
+| Pull Requests have comments and descriptions | Clear descriptions on all Pull Requests and comments |
