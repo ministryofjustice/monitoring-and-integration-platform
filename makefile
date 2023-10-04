@@ -16,8 +16,5 @@ deploy:
 		-v $$(pwd)/source:/app/source \
 		-it $(IMAGE) /scripts/deploy.sh
 
-check:
-	docker run --rm \
-		-v $$(pwd)/config:/app/config \
-		-v $$(pwd)/source:/app/source \
-		-it $(IMAGE) /scripts/check-url-links.sh
+
+
