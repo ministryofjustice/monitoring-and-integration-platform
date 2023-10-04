@@ -26,6 +26,8 @@ collapsible_nav: true
 # headings.
 max_toc_heading_level: 3
 
+multipage_nav: true
+
 # Prevent robots from indexing (e.g. whilst in development)
 prevent_indexing: true
 
