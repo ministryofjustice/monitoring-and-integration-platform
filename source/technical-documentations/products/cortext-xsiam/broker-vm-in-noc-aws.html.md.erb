@@ -5,16 +5,52 @@ last_reviewed_on: 2024-03-12
 review_in: 6 months
 ---
 
-# Cortex Broker VM infrastructure in NOC AWS Space
+# Cortex Broker VM infrastructure in NOC AWS
+
 NOC AWS has a connectivity with Mgmt Network of MoJ remote offices. All core networking devices are interconnectect via the Mgmt
 Network and those devices are only capable to ship syslogs ver the Mgmt Network using UDP protocol over port 514.
 
 Therefore, in order to collect syslogs from the core networking devices in various remote MoJ offices, we needed to deploy a cluster of the Cortex Broker VMs in the NOC AWS space.
 
-> **Note:**
->
-> Broker VM ec2 instances are behind an **internal network load balancer**
->
-> and the IP addresses for the load balancer are: `172.27.3.50` and `172.27.4.50`
+Below is the low level diagram of the [Cortext Broker VM](cortex-broker-vm.html) infrastructure in NOC AWS VPC:
 
 ![Broker VM Low Level Diagram](/images/broker_vm_in_noc_aws_lld.png "LLD of Cortex Broker VM infrastructure in NOC AWS")
+
+> **Note:**
+>
+> - Broker VM ec2 instances are behind an **internal network load balancer**
+> - The IP addresses for the load balancer are: `172.27.3.50` and `172.27.4.50`
+>
+> **Currently supported ports and protocols:**
+>
+> - Protocol: UDP
+> - Port: 514
+
+## Deployment
+
+This architecture is deployed using terraform and terraform is stored and maintained by the NOC team in a private github repository called `deployment-aws-noc`.
+
+It essentially involves:
+
+ - Creation of a new security group `MOJ-NS-NOC-XSIAMBROKER-Private` that allows:
+  - TCP traffic on port 4443
+  - UDP traffic on port 514
+ - Creation of two new ec2 instances of type `t2.medium` and attach them to private subnets
+  - MOJ-NS-NOC-XSIAMBROKER001
+  - MOJ-NS-NOC-XSIAMBROKER002
+ - Creation of a new target group with these new ec2 instances
+ - Associate this new target group to the exisitng internal network load balancer
+
+> **Important!**
+>
+> These ec2 instances require a custom AMI
+>
+> We followed Cortex Admin Guide: [Create a Broker VM Amazon Machine Image (AMI)](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-Pro-Administrator-Guide/Create-a-Broker-VM-Amazon-Machine-Image-AMI)
+> to create a custom AMI and provided the AMI id in terraform to create the ec2 instances.
+
+Once the ec2 instances are up and running, we used a jump-box that is provided by the NOC team to access each ec2 instances and carried out the following:
+
+ - [Initial Setup](cortex-broker-vm.html#initial-setup)
+ - [Register the Broker VM](cortex-broker-vm.html#register-the-broker-vm)
+ - Add the Broker VM to the cluster
+  - We created a new Broker cluster in XSIAM called `NOC AWS` and we added both brokers in that cluster

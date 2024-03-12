@@ -18,3 +18,30 @@ receives updates and enhancements from Cortex XSIAM, providing new capabilities 
 Following diagram is an illustration of various broker VM features that we can possibly leverage
 
 ![Broker VM Features](/images/broker_vm_features.png "Broker VM Features")
+
+## Initial Setup
+Perform the following procedures in the order listed below.
+
+#### Task 1. Generate a token for your broker
+ - In XSIAM console, select Settings → Configurations → Data Broker → Broker VMs.
+ - Click Add Broker → Generate Token, and copy to your clipboard. The token is valid for 24 hours. A new token is generated each time you select Generate Token.
+
+#### Task 2. Open the Broker VM URL
+Depending on the Broker VM version, navigate to either of the following URLs:
+
+ - From Broker VM version 19.x.x and later: https://`<broker_vm_ip_address>`:4443
+ - From Broker VM version 18.x.x and earlier: https://`<broker_vm_ip_address>`/
+
+> **Note**
+>
+> When DHCP is not enabled in your network and there isn't an IP address for your Broker VM, configure the Broker VM with a static IP using the serial console menu.
+
+#### Task 3. Log in and set a new password
+Log in with the default password `!nitialPassw0rd`, and then define your own unique password. The password must contain a minimum of eight characters, contain letters and numbers, and at least one capital letter and one special character.
+
+## Register the Broker VM
+Once the intial setup is complete and a new password has been set. On the Broker VM UI, click on `Register` and enter the unique Token that was generated in task 1 of the initial setup. This can take up to 30 seconds.
+
+After a successful registration, Cortex XDR displays a notification.
+
+You are directed in Cortex XDR to Settings → Configurations → Data Broker → Broker VMs. The Broker VMs page displays your Broker VM details and allows you to edit the defined configurations.
