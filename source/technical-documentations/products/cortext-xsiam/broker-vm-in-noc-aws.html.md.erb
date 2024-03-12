@@ -1,8 +1,20 @@
 ---
 title: Cortex Broker VM in NOC AWS
+weight: 20
 last_reviewed_on: 2024-03-12
 review_in: 6 months
 ---
 
 # Cortex Broker VM infrastructure in NOC AWS Space
-![Broker VM Low Level Diagram](/images/broker_vm_in_noc_aws_lld.png "LLD")
+NOC AWS has a connectivity with Mgmt Network of MoJ remote offices. All core networking devices are interconnectect via the Mgmt
+Network and those devices are only capable to ship syslogs ver the Mgmt Network using UDP protocol over port 514.
+
+Therefore, in order to collect syslogs from the core networking devices in various remote MoJ offices, we needed to deploy a cluster of the Cortex Broker VMs in the NOC AWS space.
+
+> **Note:**
+>
+> Broker VM ec2 instances are behind an **internal network load balancer**
+>
+> and the IP addresses for the load balancer are: `172.27.3.50` and `172.27.4.50`
+
+![Broker VM Low Level Diagram](/images/broker_vm_in_noc_aws_lld.png "LLD of Cortex Broker VM infrastructure in NOC AWS")
