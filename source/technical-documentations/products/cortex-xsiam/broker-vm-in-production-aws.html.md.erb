@@ -1,0 +1,59 @@
+---
+title: Cortex Broker VM in Production AWS
+weight: 20
+last_reviewed_on: 2024-03-12
+review_in: 6 months
+---
+
+# Cortex Broker VM infrastructure in Production AWS
+
+Production AWS has a connectivity with MOJ's production network. Atos managed RAS Gateways, that are responsible for Cisco AnyConnect VPN connections, are only able to send syslogs
+through our Corsham DataCentres over the Production network. And those devices are only capable to ship syslogs using UDP protocol over port 514 due to a lack of PKI.
+
+Therefore, in order to collect syslogs from those Atos managed Cisco ASA devices, we needed to deploy a cluster of the Cortex Broker VMs in the Production AWS space.
+
+Below is the low level diagram of the [Cortex Broker VM](cortex-broker-vm.html) infrastructure in Production AWS:
+
+![Broker VM Low Level Diagram](/images/broker_vm_in_production_aws_lld.png "LLD of Cortex Broker VM infrastructure in Production AWS")
+
+> **Note:**
+>
+> - Broker VM ec2 instances are behind:
+>  - **internal network load balancer**
+>  - **internet-facing network load balancer**
+> - The IP addresses for the internal load balancer are:
+>  - `10.180.96.100`
+>  - `10.180.97.100`
+>  - `10.180.98.100`
+>
+> **Currently supported ports and protocols:**
+>
+> - Protocol: UDP
+> - Port: 514
+
+## Deployment
+
+This architecture is deployed as a temporary setup. Our plan is to enable internet-facing network load balancer in NOC AWS Infrastructure and then we will decommission this infra.
+
+It essentially involves:
+
+ - Creation of a new security group `xsiam-broker-vm-production` that allows:
+  - TCP traffic on port 4443
+  - UDP traffic on port 514
+ - Creation of three new ec2 instances of type `t2.medium` and attach them to private subnets
+ - Creation of a new target group with these new ec2 instances
+ - Associate this new target group to new internal network load balancer
+
+> **Important!**
+>
+> These ec2 instances require a custom AMI
+>
+> We followed Cortex Admin Guide: [Create a Broker VM Amazon Machine Image (AMI)](https://docs-cortex.paloaltonetworks.com/r/Cortex-XDR/Cortex-XDR-Pro-Administrator-Guide/Create-a-Broker-VM-Amazon-Machine-Image-AMI)
+> to create a custom AMI and provided the AMI id in terraform to create the ec2 instances.
+
+Once the ec2 instances are up and running, we used a jump-box that is provided by the NOC team to access each ec2 instances and carried out the following:
+
+ - [Initial Setup](cortex-broker-vm.html#initial-setup)
+ - [Register the Broker VM](cortex-broker-vm.html#register-the-broker-vm)
+ - Add the Broker VM to the cluster
+  - We created a new Broker cluster in XSIAM called `Production AWS` and we added both brokers in that cluster
