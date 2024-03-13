@@ -14,4 +14,19 @@ The MIP team in collaboration with the SOC team is currently working on:
  - Managing analysis of the ingested data and anomaly detections using correlation rules
  - Managing automatic remediations of incidents using playbooks of [the Cortext XSOAR](https://www.paloaltonetworks.co.uk/cortex/cortex-xsoar)
 
+## What does it look like in MOJ?
+Below is a high level diagram that illustrates all the data sources that XSIAM is ingesting data from:
+
+![MOJ Cortex XSIAM HLD](images/moj_cortex_xsiam_hld.png "MOJ Cortex XSIAM High Level Diagram")
+
+### Here is a list of all the datasource integrations with XSIAM:
+
+| Data Source | Integrations |
+| -------- | ------- |
+| **Using [Broker VM](xsiam-broker-vm/):** |
+| Atos managed Cisco ASA devices | [Broker VM in Production AWS](xsiam-broker-vm/broker-vm-in-production-aws.html) |
+| Core Network devices in 102PF | [Broker VM in NOC AWS](xsiam-broker-vm/broker-vm-in-noc-aws.html) |
+| **Using [Native XSIAM integrations](xsiam-integrations/):** |
+| Azure Landing Zone | [Azure Event Hub integration](xsiam-broker-vm/broker-vm-in-noc-aws.html) |
+
   - [Integrations](integrations/)
