@@ -13,11 +13,71 @@ Step By Step Implementation
 ---------------------
 
 Login to XSIAM and Navigate to “Settings” > ”Data Sources”  
-![image-1](/images/onboarding/mist/1.png)
+![image-1-mist](/images/onboarding/mist/1.png)
 
 Click on “Add Data Source” 
-![image-2](/images/onboarding/mist/2.png)
+![image-2-mist](/images/onboarding/mist/2.png)
 
 Search for “Custom - HTTP based Collector” and click on the “Connect” button available by hovering over it.  
-![image-3](/images/onboarding/mist/3.png)
+![image-3-mist](/images/onboarding/mist/3.png)
 
+Fill the relevant information as 
+- Name: LAN Juniper MIST 
+- Compression: uncompressed 
+- Log Format: JSON 
+- Vendor: juniper 
+- Juniper: mist 
+ and then click on “Save & Generate Token”  
+![image-4-mist](/images/onboarding/mist/4.png)
+
+*NOTE: The action will generate a token, this must be saved in the Azure Key Vault straight away as it will be not possible to access it again.*
+
+Create the parsing rule 
+-------------------------
+Parsing rules can be defined by navigating to Settings > Data Sources and then selecting Parsing Rules 
+![image-5-mist](/images/onboarding/mist/5.png)
+
+The new rule can be defined in the User Defined tab by appending the following code snippet: 
+    [INGEST:vendor="juniper", product="mist", target_dataset="juniper_mist_raw", no_hit=keep] 
+
+    filter topic != "audits" 
+    | alter data_array = events -> [0]{} 
+    | alter ap = data_array -> ap 
+    | alter ap_name = data_array -> ap_name 
+    | alter band = data_array -> band 
+    | alter bssid = data_array -> bssid 
+    | alter client_ip = data_array -> client_ip 
+    | alter connect = data_array -> connect 
+    | alter connect_float = data_array -> connect_float 
+    | alter mac = data_array -> mac 
+    | alter org_id = data_array -> org_id 
+    | alter random_mac = data_array -> random_mac 
+    | alter rssi = data_array -> rssi 
+    | alter site_id = data_array -> site_id 
+    | alter site_name = data_array -> site_name 
+    | alter ssid = data_array -> ssid 
+    | alter timestamp = data_array -> timestamp 
+    | alter version = data_array -> version 
+    | alter wlan_id = data_array -> wlan_id 
+    | alter client_family = data_array -> client_family 
+    | alter client_manufacture = data_array -> client_manufacture 
+    | alter client_model = data_array -> client_model 
+    | alter client_os = data_array -> client_os 
+    | alter disconnect = data_array -> disconnect 
+    | alter disconnect_float = data_array -> disconnect_float 
+    | alter duration = data_array -> duration 
+    | alter next_ap = data_array -> next_ap 
+    | alter termination_reason = data_array -> termination_reason; 
+
+Once done click on *Save*
+
+
+Juniper MIST Configuration
+--------------------------
+
+The configuration in Juniper MIST is carried out by the LAN team. 
+What we need to communicate to them is the  *HTTP Endoint* that for live is always https://api-justiceuk.xdr.uk.paloaltonetworks.com/logs/v1/event 
+and the *Authorization Key*: by granting access to the vault secret  
+
+The client will have to perform a post call using the following headers: 
+    Authorization: {api_key}' -H 'Content-Type: text/plain' 
