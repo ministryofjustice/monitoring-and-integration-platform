@@ -38,9 +38,9 @@ Parsing rules can be defined by navigating to Settings > Data Sources and then s
 ![image-5](/images/onboarding/mist/5.png)
 
 The new rule can be defined in the User Defined tab by appending the following code snippet: 
-[INGEST:vendor="juniper", product="mist", target_dataset="juniper_mist_raw", no_hit=keep] 
+    [INGEST:vendor="juniper", product="mist", target_dataset="juniper_mist_raw", no_hit=keep] 
 
-    filter topic != "audits" 
+filter topic != "audits" 
 | alter data_array = events -> [0]{} 
 | alter ap = data_array -> ap 
 | alter ap_name = data_array -> ap_name 
