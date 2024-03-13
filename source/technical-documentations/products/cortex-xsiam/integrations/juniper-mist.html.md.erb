@@ -21,34 +21,3 @@ Click on “Add Data Source”
 Search for “Custom - HTTP based Collector” and click on the “Connect” button available by hovering over it.  
 ![image-3](/images/onboarding/mist/3.png)
 
-Fill the relevant information as 
-- Name: LAN Juniper MIST 
-- Compression: uncompressed 
-- Log Format: JSON 
-- Vendor: juniper 
-- Juniper: mist 
- and then click on “Save & Generate Token”  
-![image-4](/images/onboarding/mist/4.png)
-
-*NOTE: The action will generate a token, this must be saved in the Azure Key Vault straight away as it will be not possible to access it again.*
-
-Create the parsing rule 
--------------------------
-Parsing rules can be defined by navigating to Settings > Data Sources and then selecting Parsing Rules 
-![image-5](/images/onboarding/mist/5.png)
-
-The new rule can be defined in the User Defined tab by appending the following code snippet: 
-
-
-Once done click on *Save*
-
-
-Juniper MIST Configuration
---------------------------
-
-The configuration in Juniper MIST is carried out by the LAN team. 
-What we need to communicate to them is the  *HTTP Endoint* that for live is always https://api-justiceuk.xdr.uk.paloaltonetworks.com/logs/v1/event 
-and the *Authorization Key*: by granting access to the vault secret  
-
-The client will have to perform a post call using the following headers: 
-    Authorization: {api_key}' -H 'Content-Type: text/plain' 
