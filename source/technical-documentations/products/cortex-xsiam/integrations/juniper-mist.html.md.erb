@@ -38,36 +38,7 @@ Parsing rules can be defined by navigating to Settings > Data Sources and then s
 ![image-5](/images/onboarding/mist/5.png)
 
 The new rule can be defined in the User Defined tab by appending the following code snippet: 
-    [INGEST:vendor="juniper", product="mist", target_dataset="juniper_mist_raw", no_hit=keep] 
 
-filter topic != "audits" 
-| alter data_array = events -> [0]{} 
-| alter ap = data_array -> ap 
-| alter ap_name = data_array -> ap_name 
-| alter band = data_array -> band 
-| alter bssid = data_array -> bssid 
-| alter client_ip = data_array -> client_ip 
-| alter connect = data_array -> connect 
-| alter connect_float = data_array -> connect_float 
-| alter mac = data_array -> mac 
-| alter org_id = data_array -> org_id 
-| alter random_mac = data_array -> random_mac 
-| alter rssi = data_array -> rssi 
-| alter site_id = data_array -> site_id 
-| alter site_name = data_array -> site_name 
-| alter ssid = data_array -> ssid 
-| alter timestamp = data_array -> timestamp 
-| alter version = data_array -> version 
-| alter wlan_id = data_array -> wlan_id 
-| alter client_family = data_array -> client_family 
-| alter client_manufacture = data_array -> client_manufacture 
-| alter client_model = data_array -> client_model 
-| alter client_os = data_array -> client_os 
-| alter disconnect = data_array -> disconnect 
-| alter disconnect_float = data_array -> disconnect_float 
-| alter duration = data_array -> duration 
-| alter next_ap = data_array -> next_ap 
-| alter termination_reason = data_array -> termination_reason; 
 
 Once done click on *Save*
 
