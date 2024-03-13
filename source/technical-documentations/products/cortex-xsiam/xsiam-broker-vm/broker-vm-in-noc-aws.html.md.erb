@@ -5,7 +5,7 @@ last_reviewed_on: 2024-03-12
 review_in: 6 months
 ---
 
-# Cortex Broker VM infrastructure in NOC AWS
+# Broker VM infrastructure in NOC AWS
 
 NOC AWS has a connectivity with Mgmt Network of MoJ remote offices. All core networking devices are interconnectect via the Mgmt
 Network and those devices are only capable to ship syslogs over the Mgmt Network using UDP protocol over port 514.
@@ -49,7 +49,7 @@ It essentially involves:
 
 Once the ec2 instances are up and running, we used a jump-box that is provided by the NOC team to access each ec2 instances and carried out the following:
 
- - [Initial Setup](cortex-broker-vm.html#initial-setup)
- - [Register the Broker VM](cortex-broker-vm.html#register-the-broker-vm)
+ - [Initial Setup](./#initial-setup)
+ - [Register the Broker VM](./#register-the-broker-vm)
  - Add the Broker VM to the cluster
   - We created a new Broker cluster in XSIAM called `NOC AWS` and we added both brokers in that cluster

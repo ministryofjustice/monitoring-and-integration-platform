@@ -5,7 +5,7 @@ last_reviewed_on: 2024-03-12
 review_in: 6 months
 ---
 
-# Cortex Broker VM infrastructure in Production AWS
+# Broker VM infrastructure in Production AWS
 
 Production AWS has a connectivity with MOJ's production network. Atos managed RAS Gateways, that are responsible for Cisco AnyConnect VPN connections, are only able to send syslogs
 through our Corsham DataCentres over the Production network. And those devices are only capable to ship syslogs using UDP protocol over port 514 due to a lack of PKI.
@@ -49,7 +49,7 @@ It essentially involves:
 
 Once the ec2 instances are up and running, we used a jump-box that is provided by the NOC team to access each ec2 instances and carried out the following:
 
- - [Initial Setup](cortex-broker-vm.html#initial-setup)
- - [Register the Broker VM](cortex-broker-vm.html#register-the-broker-vm)
+ - [Initial Setup](./#initial-setup)
+ - [Register the Broker VM](./#register-the-broker-vm)
  - Add the Broker VM to the cluster
   - We created a new Broker cluster in XSIAM called `Production AWS` and we added both brokers in that cluster
