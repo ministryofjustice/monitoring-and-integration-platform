@@ -6,3 +6,27 @@ review_in: 6 months
 ---
 
 # XSIAM SSO Configuration
+MOJO Cortex XSIAM has been integrated with SSO using MOJO Azure AD. A new enterprise application has been created in Azure for SAML based SSO and on the XSIAM side, SSO authentication
+has been enabled.
+
+> **Important!**
+>
+> SSO is now the preferred method of accessing the XSIAM
+
+Due to this SSO configuration; authentication now takes place in Azure AD and authorisation takes place in XSIAM. Therefore, in order to provide someone access to XSIAM with some specific
+permissions, below is what we will need to do:
+
+### Create authentication:
+
+ - **Step 1** - Create a `Security Group` in Azure AD.
+ - **Step 2** - Add users in this group as members.
+ - **Step 3** - Go to the SSO Enterprise app and assign this new group.
+ - **Step 4** - Take a note of the `Object id` of this new group for the next stage.
+
+### Create authorisation:
+
+ - **Step 5** - Create a user group in XSIAM with the same name as the `Security Group` above.
+ - **Step 6** - Add the `Object id` of the `Security Group` in the `SAML Group Mapping` section.
+ - **Step 7** - Select appropriate `Role` in the Role selector for this user group.
+
+These above steps should create the neccessary access for the new user.
