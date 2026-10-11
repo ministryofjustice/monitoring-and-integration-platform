@@ -1,0 +1,79 @@
+---
+title: XSIAM Ingestion Health Monitor
+weight: 40
+last_reviewed_on: 2026-10-11
+review_in: 6 months
+---
+
+# XSIAM Ingestion Health Monitor
+
+## Purpose
+
+The XSIAM Ingestion Health Monitor is an hourly operational check intended to identify a sustained ingestion-health risk and notify the Monitoring and Integration Platform (MIP) team before it becomes a material visibility gap.
+
+The monitor is designed to send warning, high and critical notifications to the **Data Health ingestion** Teams channel. Critical or re-escalated conditions can additionally use PagerDuty when that integration is approved and configured.
+
+> **Current status: pending production deployment.** The monitor package has been prepared and its notification behaviour has been locally verified. It must not be treated as a live operational control until the outstanding approval, integration, deployment and test activities are complete.
+
+## Monitoring schedule and thresholds
+
+| Item | Design |
+| --- | --- |
+| Health check schedule | Every hour |
+| Daily summary | 08:00 Europe/London |
+| Data source | Cortex XSIAM read-only API |
+| Warning condition | Ingestion is below the warning threshold for the configured sustained period |
+| High condition | Ingestion is below the high threshold for the configured sustained period |
+| Critical condition | Ingestion is below the critical threshold for the configured sustained period |
+| Notification destinations | Teams for all new alerts; PagerDuty only for critical or re-escalated alerts when enabled |
+
+Exact thresholds and sustained-period settings are deployment configuration. They must be reviewed with the owning operational team and recorded in the approved deployment configuration.
+
+## Alert ownership and response
+
+The intended operational owner is the Out-of-Hours (OOH) or Continuous Integration (CI) team. The agreed owner should:
+
+1. acknowledge and triage new high and critical alerts;
+2. identify whether the condition is a source, connector, platform or licensing issue;
+3. follow the relevant XSIAM runbook and record evidence;
+4. escalate material visibility gaps through the agreed incident route; and
+5. hand over any unfinished action using the [out-of-hours response handover template](https://github.com/ministryofjustice/monitoring-and-integration-platform/blob/main/docs/out_of_hours_handover.md).
+
+## Required production-readiness actions
+
+The following actions remain open and are tracked in [Jira MON-5460](https://dsdmoj.atlassian.net/browse/MON-5460):
+
+1. Obtain a scoped Power Platform approval for the HTTP connector in the MIP environment. The tenant-wide `MoJ-Blocked-HTTP` policy must not be changed for this monitor.
+2. Configure the Teams workflow for the **Data Health ingestion** channel and store its workflow URL as `TeamsWorkflowUrl` in the approved Azure Key Vault.
+3. Deploy the Function App and its infrastructure through the approved CI/CD route.
+4. Run an end-to-end alert test, including notification delivery and acknowledgement ownership.
+5. Confirm the OOH or CI support model, escalation contacts and optional PagerDuty configuration.
+6. Complete the applicable change, security and service-acceptance checks before enabling operational alerts.
+
+## Security and secret handling
+
+The monitor uses a read-only XSIAM API credential. Credentials, API keys, workflow URLs and any secret values must be stored only in the approved secret-management service. They must not be committed to this repository, added to Jira comments, or posted to Teams.
+
+## Architecture
+
+```text
+Cortex XSIAM read-only API
+          |
+          v
+Hourly ingestion-health Function
+          |
+          +--> Azure Key Vault (configuration and secrets)
+          |
+          +--> Teams: Data Health ingestion (warning, high and critical)
+          |
+          +--> PagerDuty (critical/re-escalated only; optional)
+          |
+          v
+OOH or CI triage, escalation and handover
+```
+
+## Related material
+
+- [XSIAM operational documentation](./)
+- [Out-of-hours response handover template](https://github.com/ministryofjustice/monitoring-and-integration-platform/blob/main/docs/out_of_hours_handover.md)
+- [Jira MON-5460](https://dsdmoj.atlassian.net/browse/MON-5460)
